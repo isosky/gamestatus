@@ -4,13 +4,12 @@
 # @Author  : wtr
 # @File    : cookerparser.py
 
-import re
 
 
 class cookerparser:
     def __init__(self, row):
-        _cooker = {'chao': row[3], 'kao': row[4], 'zhu': row[5], 'zheng': row[6],
-                   'qie': row[7], 'zha': row[8]}
+        _cooker = {'炒': row[3], '烤': row[4], '煮': row[5], '蒸': row[6],
+                   '切': row[7], '炸': row[8]}
         self.id = row[0]
         self.name = row[1]
         self.attr = _cooker
@@ -22,7 +21,7 @@ class cookerparser:
             if '0' in i or '5' in i:
                 ts = i.split('+')
                 self.ss = ts[0]
-                self.sv = ts[1]
+                self.sv = float(ts[1])
 
     def adddish(self, d):
         if len(self.dish) == 3:
