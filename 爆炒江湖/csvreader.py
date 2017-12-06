@@ -32,6 +32,6 @@ def initdish():
     for i in range(2, rows):
         temp = sheet.row(i)
         temp = [x.value for x in temp]
-        if temp[1] != '':
-            dishes[str(int(temp[0]))]=(dishparser.dishparser(temp))
+        if temp[1] != '' and temp[7] != '':
+            dishes[str(int(temp[0]))] = (dishparser.dishparser(temp))
     return dishes
