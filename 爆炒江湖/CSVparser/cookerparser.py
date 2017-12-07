@@ -17,7 +17,7 @@ class cookerparser:
         self.es = 0
         self.ev = 0
         if row[10] != '':
-            temp = row[10].split('%')
+            temp = [row[10].split('%')[0]]
             for i in temp:
                 if ('0' in i or '5' in i) and '+' in i:
                     ts = i.split('+')
@@ -31,7 +31,7 @@ class cookerparser:
             self.sv = 0
 
     def adddish(self, d):
-        if len(self.dish) == 3:
+        if len(self.dish) == 10:
             temp = self.dish
             c = 0
             for i in temp:
@@ -42,9 +42,10 @@ class cookerparser:
                     break
                 else:
                     c += 1
-            if c == 3:
+            if c == 10:
                 return
         self.dish.append(d)
+        self.dish = sorted(self.dish, key=lambda a: a.per)
 
     def addcookware(self, s, v):
         self.es = s

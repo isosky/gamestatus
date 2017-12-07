@@ -52,7 +52,8 @@ def initdish():
         temp = sheet.row(i)
         temp = [x.value for x in temp]
         if temp[1] != '' and temp[7] != '':
-            dishes[str(int(temp[0]))] = (dishparser.dishparser(temp, m))
+            if list(set(temp[9:15]))!=['']:
+                dishes[str(int(temp[0]))] = (dishparser.dishparser(temp, m))
     return dishes
 
 

@@ -24,12 +24,13 @@ cookers = csvreader.initcooker([])
 dishes = csvreader.initdish()
 
 # load save
-o_cookers = csvreader.initcooker([])
-o_dishes = csvreader.initdish()
+o_cookers = deepcopy(cookers)
+o_dishes = deepcopy(dishes)
 
 arr = ['炒', '烤', '煮', '蒸', '切', '炸']
 
 sp = {1: 1.0, 2: 1.1, 3: 1.3, 4: 1.5}
+dp = {1.5: '神', 1.3: '特', 1.1: '优', 1: '可'}
 
 m = csvreader.initm()
 
@@ -44,29 +45,21 @@ def calcookdish(cooker, dish):
                 return
             if cooker.attr[i] != '' and dish.attr[i] != '':
                 s.append(int(cooker.attr[i]/dish.attr[i]))
-        if s:
-            if min(s) > 0:
-                if s > 4:
-                    s = 4
-                    dish.setcooker(cooker, sp[s])
-                    cooker.adddish(dish)
-                    # print dish.earn * sp[s] * dish.total_time
-                    # else:
-                    #     print "can't cook this dish"
+        if min(s) > 0:
+            if s > 4:
+                s = 4
+            dish.setcooker(cooker, sp[s])
+            cooker.adddish(dish)
+            # print dish.id,dish.per
+            # tempd(cooker)
 
 
-# temp = dishes['1']
-
-# print(temp)
-
-
-
-# for c in cookers:
-#     # if c.id == 177:
-#     #     c.addcookware('鱼', 20.0)
-#     # for i in dishes:
-#     #     calcookdish(c, dishes[i])
-#     calcookdish(c, dishes['20'])
+def tempd(c):
+    temp = c.dish
+    dic = {}
+    for i in temp:
+        dic[i.id] = i.per
+    print dic
 
 
 def presult():
@@ -74,15 +67,16 @@ def presult():
         c.dish = sorted(c.dish, key=lambda a: a.per, reverse=True)
         temp = c.dish
         if len(temp) > 0:
-            print c.name, c.attr, c.ss, c.es
+            print c.id, c.name, c.attr, c.ss, c.es
             print 'id', '名称', '倍率', '价格/h', '加成', '时长', '总价', '加成类别'
             for i in temp:
-                print i.id, i.name, i.sp, round(i.per, 2)*3600, i.gv, i.total_time, i.total_money, (',').join(i.g)
+                print i.id, i.name, dp[i.sp], round(i.per, 2), i.gv, i.total_time, i.total_money, (',').join(i.g)
 
 
 if __name__ == '__main__':
     while True:
         mode = raw_input('1:查询某个菜哪些厨师可以做\n2:查询某厨师推荐的菜\nplease input value: ')
+        # mode = '2'
         if mode == '1':
             k = 1
             while k:
@@ -101,8 +95,11 @@ if __name__ == '__main__':
             k = 1
             while k:
                 cooker_name = raw_input('请输入厨师名称:')
+                # cooker_name = '大天狗'
                 for c in cookers:
                     if c.name == cooker_name:
+                        if cooker_name == '大天狗':
+                            c.addcookware('鱼', 20.0)
                         for d in dishes:
                             calcookdish(c, dishes[d])
                         k += 1

@@ -42,14 +42,13 @@ class dishparser:
         self.cookerid = cooker.id
         s = 1
         if cooker.ss in self.g:
-            s += cooker.sv / 100
+            s += cooker.sv/100
         if cooker.es in self.g:
-            s += cooker.ev / 100
+            s += cooker.ev/100
         self.gv = s
         self.sp = sp
-        self.per = sp * self.earn * self.gv
-        # print(type(sp), type(self.earn), type(self.total_time), sp, self.earn, self.total_time, self.id)
-        self.total_money = sp * self.earn * self.total_time
+        self.per = sp*self.earn*self.gv
+        self.total_money = sp*self.earn*self.total_time
 
     def clearcooker(self):
         self.cookerid = False
