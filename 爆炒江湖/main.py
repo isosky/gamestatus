@@ -45,10 +45,11 @@ def calcookdish(cooker, dish):
                 return
             if cooker.attr[i] != '' and dish.attr[i] != '':
                 s.append(int(cooker.attr[i]/dish.attr[i]))
-        if min(s) > 0:
-            if s > 4:
-                s = 4
-            dish.setcooker(cooker, sp[s])
+        t = min(s)
+        if t > 0:
+            if t > 4:
+                t = 4
+            dish.setcooker(cooker, sp[t])
             cooker.adddish(dish)
             # print dish.id,dish.per
             # tempd(cooker)
@@ -70,7 +71,7 @@ def presult():
             print c.id, c.name, c.attr, c.ss, c.es
             print 'id', '名称', '倍率', '价格/h', '加成', '时长', '总价', '加成类别'
             for i in temp:
-                print i.id, i.name, dp[i.sp], round(i.per, 2), i.gv, i.total_time, i.total_money, (',').join(i.g)
+                print i.id, i.name, i.sp, dp[i.sp], round(i.per, 2), i.gv, i.total_time, i.total_money, (',').join(i.g)
 
 
 if __name__ == '__main__':
