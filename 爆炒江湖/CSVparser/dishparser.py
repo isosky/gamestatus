@@ -40,18 +40,18 @@ class dishparser:
 
     def setcooker(self, cooker, sp):
         self.cookerid = cooker.id
-        s = 1
-        if cooker.ss in self.g:
-            s += cooker.sv/100
-        if cooker.es in self.g:
-            s += cooker.ev/100
-        self.gv = s
         self.sp = sp
-        self.per = sp*self.earn*self.gv
-        self.total_money = sp*self.earn*self.total_time
+        if cooker.ss in self.g:
+            sp += cooker.sv/100
+        if cooker.es in self.g:
+            sp += cooker.ev/100
+        self.gv = sp
+        self.per = self.gv*self.earn
+        self.total_money = self.gv*self.earn*self.total_time
 
     def clearcooker(self):
         self.cookerid = False
         self.sp = 0
+        self.gv = 0
         self.per = 0
         self.total_money = 0

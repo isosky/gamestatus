@@ -66,12 +66,15 @@ def tempd(c):
 def presult():
     for c in cookers:
         c.dish = sorted(c.dish, key=lambda a: a.per, reverse=True)
+        c.dish = [x for x in c.dish if x.per > 1.74]
         temp = c.dish
         if len(temp) > 0:
             print c.id, c.name, c.attr, c.ss, c.es
             print 'id', '名称', '倍率', '价格/h', '加成', '时长', '总价', '加成类别'
             for i in temp:
                 print i.id, i.name, i.sp, dp[i.sp], round(i.per, 2), i.gv, i.total_time, i.total_money, (',').join(i.g)
+            print '\n'*2
+
 
 
 if __name__ == '__main__':
@@ -92,6 +95,8 @@ if __name__ == '__main__':
                     print '名称不存在,请重新输入'
                 else:
                     break
+            presult()
+
         if mode == '2':
             k = 1
             while k:
@@ -109,10 +114,12 @@ if __name__ == '__main__':
                     print '名称不存在,请重新输入'
                 else:
                     break
+            presult()
 
-        presult()
-        print '\n'*3
-        del cookers
-        del dishes
-        cookers = deepcopy(o_cookers)
-        dishes = deepcopy(o_dishes)
+        if mode == '3':
+            for c in cookers:
+                for d in dishes:
+                    calcookdish(c, dishes[d])
+                presult()
+                del dishes
+                dishes = deepcopy(o_dishes)
