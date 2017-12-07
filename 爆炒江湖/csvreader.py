@@ -18,7 +18,8 @@ def initcooker(ids):
         temp = sheet.row(i)
         temp = [x.value for x in temp]
         if temp[1] != '':
-            if temp[0] in ids:
+            # if temp[0] in ids:
+            if temp[2] == '三阶':
                 cookers.append(cookerparser.cookerparser(temp))
     return cookers
 

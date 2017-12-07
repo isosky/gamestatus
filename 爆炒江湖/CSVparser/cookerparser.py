@@ -16,12 +16,19 @@ class cookerparser:
         self.dish = []
         self.es = 0
         self.ev = 0
-        temp = row[10].split('%')
-        for i in temp:
-            if '0' in i or '5' in i:
-                ts = i.split('+')
-                self.ss = ts[0]
-                self.sv = float(ts[1])
+        if row[10] != '':
+            temp = row[10].split('%')
+            for i in temp:
+                if ('0' in i or '5' in i) and '+' in i:
+                    ts = i.split('+')
+                    self.ss = ts[0]
+                    self.sv = float(ts[1])
+                else:
+                    self.ss = 0
+                    self.sv = 0
+        else:
+            self.ss = 0
+            self.sv = 0
 
     def adddish(self, d):
         if len(self.dish) == 3:
