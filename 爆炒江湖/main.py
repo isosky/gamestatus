@@ -37,7 +37,6 @@ m = csvreader.initm()
 
 def calcookdish(cooker, dish):
     s = []
-    # if not dish.cookerid:
     if True:
         for i in arr:
             if cooker.attr[i] == '' and dish.attr[i] != '':
@@ -51,8 +50,26 @@ def calcookdish(cooker, dish):
                 t = 4
             dish.setcooker(cooker, sp[t])
             cooker.adddish(dish)
-            # print dish.id,dish.per
-            # tempd(cooker)
+
+
+def caldish(cooker, dish):
+    s = []
+    if True:
+        for i in arr:
+            if cooker.attr[i] == '' and dish.attr[i] != '':
+                # print(i,' not match')
+                return
+            if cooker.attr[i] != '' and dish.attr[i] != '':
+                s.append(int(cooker.attr[i]/dish.attr[i]))
+        t = min(s)
+        if t > 0:
+            if t > 4:
+                t = 4
+            dish.setcooker(cooker, sp[t])
+            return cooker.id, cooker.name, cooker.ss, cooker.es, dp[dish.sp], round(dish.per,
+                                                                                    2), dish.gv, dish.total_money
+        else:
+            return False
 
 
 def tempd(c):
@@ -72,9 +89,15 @@ def presult():
             print c.id, c.name, c.attr, c.ss, c.es
             print 'id', '名称', '倍率', '价格/h', '加成', '时长', '总价', '加成类别'
             for i in temp:
-                print i.id, i.name, i.sp, dp[i.sp], round(i.per, 2), i.gv, i.total_time, i.total_money, (',').join(i.g)
+                print i.id, i.name, i.sp, dp[i.sp], round(i.per, 2), i.gv, i.total_time, i.total_money, ','.join(i.g)
             print '\n'*2
 
+
+def pr(tem):
+    # print tem
+    temp = sorted(tem, key=lambda a: a[6], reverse=True)
+    for i in temp:
+        print i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7]
 
 
 if __name__ == '__main__':
@@ -87,8 +110,13 @@ if __name__ == '__main__':
                 dish_name = raw_input('请输入菜名:')
                 for d in dishes:
                     if dishes[d].name == dish_name:
+                        print dishes[d].id, dishes[d].name
+                        temp = []
                         for c in cookers:
-                            calcookdish(c, dishes[d])
+                            t =caldish(c, dishes[d])
+                            if t:
+                                temp.append(t)
+                        pr(temp)
                         k += 1
                         break
                 if k == 1:
