@@ -66,7 +66,7 @@ def caldish(cooker, dish):
             if t > 4:
                 t = 4
             dish.setcooker(cooker, sp[t])
-            return cooker.id, cooker.name, cooker.ss, cooker.es, dp[dish.sp], round(dish.per,
+            return cooker.id, cooker.name,cooker.ll, cooker.ss, cooker.es, dp[dish.sp], round(dish.per,
                                                                                     2), dish.gv, dish.total_money
         else:
             return False
@@ -83,13 +83,14 @@ def tempd(c):
 def presult():
     for c in cookers:
         c.dish = sorted(c.dish, key=lambda a: a.per, reverse=True)
-        c.dish = [x for x in c.dish if x.per > 1.74]
+        c.dish = [x for x in c.dish if x.per > 1.0]
         temp = c.dish
         if len(temp) > 0:
             print c.id, c.name, c.attr, c.ss, c.es
-            print 'id', '名称', '倍率', '价格/h', '加成', '时长', '总价', '加成类别'
+            print 'id', '名称', '倍率', '级别', '价格/h', '加成', '时长', '总价', '加成类别'
             for i in temp:
-                print i.id, i.name, i.sp, dp[i.sp], round(i.per, 2), i.gv, i.total_time, i.total_money, ','.join(i.g)
+                print i.id, i.name, i.sp, dp[i.sp], round(i.per, 2), i.gv, round(i.total_time/3600,
+                                                                                 2), i.total_money, ','.join(i.g)
             print '\n'*2
 
 
@@ -97,7 +98,7 @@ def pr(tem):
     # print tem
     temp = sorted(tem, key=lambda a: a[6], reverse=True)
     for i in temp:
-        print i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7]
+        print i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7]
 
 
 if __name__ == '__main__':
@@ -113,7 +114,7 @@ if __name__ == '__main__':
                         print dishes[d].id, dishes[d].name
                         temp = []
                         for c in cookers:
-                            t =caldish(c, dishes[d])
+                            t = caldish(c, dishes[d])
                             if t:
                                 temp.append(t)
                         pr(temp)

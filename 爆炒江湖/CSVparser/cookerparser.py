@@ -12,6 +12,7 @@ class cookerparser:
                    '切': row[7], '炸': row[8]}
         self.id = row[0]
         self.name = row[1]
+        self.ll = row[2]
         self.attr = _cooker
         self.dish = []
         self.es = 0
@@ -31,7 +32,7 @@ class cookerparser:
             self.sv = 0
 
     def adddish(self, d):
-        if len(self.dish) == 10:
+        if len(self.dish) == 15:
             temp = self.dish
             c = 0
             for i in temp:
@@ -42,7 +43,7 @@ class cookerparser:
                     break
                 else:
                     c += 1
-            if c == 10:
+            if c == 15:
                 return
         self.dish.append(d)
         self.dish = sorted(self.dish, key=lambda a: a.per)

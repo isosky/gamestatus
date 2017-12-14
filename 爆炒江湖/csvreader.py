@@ -19,7 +19,7 @@ def initcooker(ids):
         temp = [x.value for x in temp]
         if temp[1] != '':
             # if temp[0] in ids:
-            if temp[2] == '三阶':
+            if temp[2] == '三阶' or temp[2] == '二阶':
                 cookers.append(cookerparser.cookerparser(temp))
     return cookers
 
