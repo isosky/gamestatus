@@ -32,7 +32,7 @@ class task1():
 
     def moveto(self, x, y):
         self.step -= 1
-        self.check(x, y)
+        return x, y
 
     def check(self, x, y):
         if self.task_ground[x][y] == 1:
@@ -41,48 +41,94 @@ class task1():
             return False
 
 
-food = {'rice': [[0, 1, 0], [1, 1, 1]]}
+food = {'rice': [[0, 1, 0], [1, 1, 1]],
+        'flour': [[1, 1, 1]],
+        'egg': [[1, 1], [1, 1]]}
 
 
-def fix_rice(task):
-    print('try to fix rice')
+def fix(fn, t):
+    if fn == 'rise':
+        fix_rice(fn, t)
+    if fn == 'flour':
+        fix_flour(fn, t)
+    if fn == 'egg':
+        fix_egg(fn, t)
+
+
+def init_task1(name, task):
+    print('try to fix %s'%name)
     ground = np.zeros((5, 4))
     x = 0
     y = 0
     ground[x][y] = 2
-    x += 1
-    y += 1
-    while not task.moveto(x, y) and x < len(ground) - 1:
+    ground[x][y] = 2
+    x, y = task.moveto(x + 1, y + 1)
+    return ground, x, y
+
+
+def fix_rice(fn, task):
+    ground, x, y = init_task1(fn, task)
+    while not task.check(x, y) and x < len(ground) - 1:
         ground[x][y] = 2
-        x += 1
+        x, y = task.moveto(x + 1, y)
+    ground[x][y] = 1
+    x, y = task.moveto(x - 1, y + 1)
     if task.check(x, y):
         ground[x][y] = 1
-        task.step -= 1
-        x -= 1
-        y += 1
-        if task.check(x, y):
-            ground[x][y] = 1
-            task.step -= 1
-            x += 1
-            ground[x][y] = 1
-            task.step -= 1
-            y += 1
-            ground[x][y] = 1
-            task.step -= 1
+        x, y = task.moveto(x + 1, y)
+        ground[x][y] = 1
+        x, y = task.moveto(x, y + 1)
+        ground[x][y] = 1
 
-        else:
-            ground[x][y] = 2
-            task.step -= 2
-            x += 2
-            ground[x][y] = 1
-            ground[x][y - 1] = 1
-            ground[x][y - 2] = 1
-            task.step -= 3
-    print(ground, 13 - task.step)
+    else:
+        ground[x][y] = 2
+        x, y = task.moveto(x + 1, y)
+        ground[x][y] = 2
+        x, y = task.moveto(x + 1, y)
+        ground[x][y] = 1
+        x, y = task.moveto(x, y - 1)
+        ground[x][y] = 1
+        x, y = task.moveto(x, y - 1)
+        ground[x][y] = 1
+    print(ground, 'use step:' + str(13 - task.step))
+
+
+def fix_flour(fn, task):
+    ground, x, y = init_task1(fn, task)
+    while not task.check(x, y) and x < len(ground) - 1:
+        ground[x][y] = 2
+        x, y = task.moveto(x + 1, y)
+    ground[x][y] = 1
+    if x == 0:
+        x, y = task.moveto(x, y + 1)
+        ground[x, y] = 1
+        x, y = task.moveto(x, y + 1)
+        ground[x, y] = 1
+        print(ground, 'use step:' + str(13 - task.step))
+        return
+    x, y = task.moveto(x, y - 1)
+    if task.check(x, y):
+        ground[x, y] = 1
+        x, y = task.moveto(x, y + 1)
+        x, y = task.moveto(x, y + 1)
+        ground[x, y] = 1
+    else:
+        ground[x, y] = 2
+        x, y = task.moveto(x, y + 1)
+        x, y = task.moveto(x, y + 1)
+        ground[x, y] = 1
+        x, y = task.moveto(x, y + 1)
+        ground[x, y] = 1
+    print(ground, 'use step:' + str(13 - task.step))
+
+
+def fix_egg(fn, task):
+    ground, x, y = init_task1(fn, task)
 
 
 if __name__ == "__main__":
     t = task1()
-    t.load(food['rice'])
+    t.load(food['egg'])
+    fix('egg', t)
     # print(t.check(0,2))
-    fix_rice(t)
+    # fix_rice(t)
